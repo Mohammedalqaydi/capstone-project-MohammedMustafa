@@ -5,12 +5,8 @@ services:
     build: .
     ports:
       - "5000:5000"
-    environment:
-      - DB_HOST=db
-      - REDIS_HOST=redis
-      - DB_NAME=mydatabase
-      - DB_USER=root
-      - DB_PASSWORD=password
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
@@ -22,23 +18,19 @@ services:
     image: mysql:latest
     ports:
       - "3306:3306"
-    environment:
-    #### based in docker hub mysql oficall image this env is mandatory ;)
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=mydatabase
+    env_file:
+      - .env
     networks:
       -  CapstoneNetwork
     restart: always
   redis:
     container_name: "redis-container"
-  
     image: redis:latest
     ports:
       - "6379:6379"
     networks:
       -  CapstoneNetwork
     
-
 networks:
   CapstoneNetwork:
     driver: bridge
