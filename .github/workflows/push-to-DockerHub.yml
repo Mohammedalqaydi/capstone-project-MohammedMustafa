@@ -26,7 +26,7 @@ jobs:
 
     - name: fetch env in .env dile
       run: 
-         ${{env}} > /.env
+         echo ${{secrets.env}} > /.env
 
     - name: Run the test command
       run: python test_app.py
