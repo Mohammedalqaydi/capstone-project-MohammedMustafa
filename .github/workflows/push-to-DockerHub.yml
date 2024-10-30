@@ -1,4 +1,4 @@
-name: push-to-DockerHub
+name: Test-and-push-to-DockerHub
 
 on:
   push: 
@@ -23,6 +23,10 @@ jobs:
     - name: Install flask and other dependencies on the runner
       run: 
         pip install -r requirements.txt
+
+    - name: fetch env in .env dile
+      run: 
+        cp ${{env}} /.env
 
     - name: Run the test command
       run: python test_app.py

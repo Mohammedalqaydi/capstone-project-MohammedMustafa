@@ -1,43 +1,43 @@
-name: Deploy-to-servers
+# name: Deploy-to-servers
 
-on:
-  push: 
-    branches:
-      - main
+# on:
+#   push: 
+#     branches:
+#       - main
 
-jobs:
-  fetch-the-image:
-    runs-on: ubuntu-latest
-    steps:
-    -
-         name: Login to Docker Hub mohammedmustaf repository
-         uses: docker/login-action@v3
-         with:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{ secrets.DOCKER_TOKEN_PASSWORD }}
+# jobs:
+#   fetch-the-image:
+#     runs-on: ubuntu-latest
+#     steps:
+#     -
+#          name: Login to Docker Hub mohammedmustaf repository
+#          uses: docker/login-action@v3
+#          with:
+#           username: ${{secrets.DOCKERHUB_USERNAME}}
+#           password: ${{ secrets.DOCKER_TOKEN_PASSWORD }}
  
-    -    name: Deploy the image to servers
-         run: docker pull mohammedmustaf/python:latest
+#     -    name: Deploy the image to servers
+#          run: docker pull mohammedmustaf/python:latest
 
   
-  deploy-the-image-to-servers:
-    runs-on: self-hosted
-    strategy:
-      matrix:
-        node: ["10.0.2.121", "10.0.2.120"]  
+#   deploy-the-image-to-servers:
+#     runs-on: self-hosted
+#     strategy:
+#       matrix:
+#         node: ["10.0.2.121", "10.0.2.120"]  
 
-    env:
-      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-      SERVER_HOST: ${{ matrix.node }}
+#     env:
+#       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+#       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+#       SERVER_HOST: ${{ matrix.node }}
 
-    steps:
-      - 
-        name: Deply to servers in alibabacloud
-        run: |
-          ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions
-          chmod 600 ~/.ssh/github_actions
-          ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} \
-          "cd /docker-compose-flask-app && git pull && docker compose up -d --build"
+#     steps:
+#       - 
+#         name: Deply to servers in alibabacloud
+#         run: |
+#           ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts
+#           echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions
+#           chmod 600 ~/.ssh/github_actions
+#           ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} \
+#           "cd /docker-compose-flask-app && git pull && docker compose up -d --build"
