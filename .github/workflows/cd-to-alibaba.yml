@@ -26,7 +26,7 @@
            
               ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
-              chmod 400 ~/.ssh/github_actions &&
+              chmod 600 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
               echo "DB_NAME=mydatabase" > .env
               echo "DB_USER=user" >> .env
@@ -35,6 +35,6 @@
               echo "MYSQL_DATABASE=mydatabase" >> .env
               echo "REDIS_HOST=${redis_host}" >> .env
               echo "DB_HOST=${db_host}" >> .env
-                "docker stop flask-app && docker rm flask-app
+               "docker stop flask-app && docker rm flask-app
                 docker pull mohammedmustaf/python:latest &&
                 docker run -d -p 80:5000 --name flask-app --env-file .env mohammedmustaf/python:latest"
