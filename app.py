@@ -18,7 +18,8 @@ def get_db():
         database=os.environ.get('DB_NAME', 'mydatabase')
     )
     return conn
-
+    
+ 
 # Create users table if not exists
 def init_db():
     time.sleep(15)  # Wait for DB to be ready

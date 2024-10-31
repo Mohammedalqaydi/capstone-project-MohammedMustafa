@@ -31,12 +31,9 @@
                 SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
                 SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
                 SERVER_HOST: ${{ matrix.node }}   
-              run: |
-                  ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts
-                  echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions
-                  chmod 600 ~/.ssh/github_actions
-                  ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} \
-                  docker push mohammedmustaf/python:latest &&
-                  "docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest"
-
-              
+             run: >-
+              ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
+              echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
+              chmod 600 ~/.ssh/github_actions &&
+              ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} "docker push mohammedmustaf/python:latest &&
+              docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest"
