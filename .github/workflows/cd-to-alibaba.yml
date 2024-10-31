@@ -18,13 +18,13 @@
              name: Deply to servers in alibabacloud
              env:
                 SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY}}
                 SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
                 SERVER_HOST: ${{ matrix.node }}   
              run: |
               ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
-              chmod 600 ~/.ssh/github_actions &&
+              chmod 777 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
                docker stop flask-app 
               docker pull mohammedmustaf/python:latest
