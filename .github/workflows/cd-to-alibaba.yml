@@ -26,6 +26,7 @@
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
               chmod 400 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
+              cd /root
                docker stop flask-app 
               docker pull mohammedmustaf/python:latest
               docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest
