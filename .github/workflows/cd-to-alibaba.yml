@@ -29,4 +29,4 @@
 
                 "docker stop flask-app && docker rm flask-app
                 docker pull mohammedmustaf/python:latest &&
-                docker run -d -p 80:5000 --name cd-container --env-file .env mohammedmustaf/python:latest"
+                docker run -d -p 80:5000 --name flask-app --env-file .env mohammedmustaf/python:latest"
