@@ -1,0 +1,31 @@
+    name: Deploy-to-alibaba-servers
+    on:
+      push: 
+        branches:
+          - main
+
+    jobs:
+      fetch-the-image-and-deploy:
+         runs-on: self-hosted
+         strategy:
+               matrix:
+                 node: ["10.0.2.226", "10.0.2.227"]  
+
+
+         steps:
+          -
+    
+             name: Deply to servers in alibabacloud
+             env:
+                SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+                SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+                SERVER_HOST: ${{ matrix.node }}   
+             run: |
+              ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
+              echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
+              chmod 600 ~/.ssh/github_actions &&
+              ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
+              docker pull mohammedmustaf/python:latest
+              docker stop flask-app 
+              docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest
