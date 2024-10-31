@@ -35,6 +35,6 @@
               echo "MYSQL_DATABASE=mydatabase" >> .env
               echo "REDIS_HOST=10.0.2.225" >> 
               echo "DB_HOST=10.0.2.224" >> .env
-               "docker stop flask-app && docker rm flask-app
+               "docker stop flask-app && docker rm flask-app &&
                 docker pull mohammedmustaf/python:latest &&
                 docker run -d -p 80:5000 --name flask-app --env-file .env mohammedmustaf/python:latest"
