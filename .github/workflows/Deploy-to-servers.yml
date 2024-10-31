@@ -9,31 +9,23 @@
          runs-on: self-hosted
          strategy:
                matrix:
-                 node: ["10.0.2.190", "10.0.2.189"]  
+                 node: ["10.0.2.226", "10.0.2.227"]  
 
 
          steps:
           -
-            name: Login to Docker Hub mohammedmustaf repository
-            uses: docker/login-action@v3
-            with:
-              username: ${{secrets.DOCKERHUB_USERNAME}}
-              password: ${{ secrets.DOCKER_TOKEN_PASSWORD }}
-
-          -
-            name: run the docker pull command
-            run: docker pull mohammedmustaf/python:latest
-   
-          -
+    
              name: Deply to servers in alibabacloud
              env:
                 SSH_AUTH_SOCK: /tmp/ssh_agent.sock
                 SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
                 SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
                 SERVER_HOST: ${{ matrix.node }}   
-             run: >-
+             run: |
               ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
               chmod 600 ~/.ssh/github_actions &&
-              ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} "docker push mohammedmustaf/python:latest &&
-              docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest"
+              ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
+              docker pull mohammedmustaf/python:latest
+              docker stop flask-app 
+              docker run -d -p 80:5000 --env-file .env mohammedmustaf/python:latest

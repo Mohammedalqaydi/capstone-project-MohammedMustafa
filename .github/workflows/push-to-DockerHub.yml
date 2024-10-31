@@ -21,7 +21,7 @@
     
 
 #     - name: Install flask and other dependencies on the runner
-#       run: 
+#       run: |
 #         pip install -r requirements.txt
 
 #     - name: fetch env in .env dile
