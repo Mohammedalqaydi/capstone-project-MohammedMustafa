@@ -28,13 +28,15 @@
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
               chmod 400 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
-              echo "DB_NAME=mydatabase" > .env
-              echo "DB_USER=user" >> .env
-              echo "DB_PASSWORD=password" >> .env
-              echo "MYSQL_ROOT_PASSWORD=password" >> .env
-              echo "MYSQL_DATABASE=mydatabase" >> .env
-              echo "REDIS_HOST=10.0.2.225" >> 
-              echo "DB_HOST=10.0.2.224" >> .env
-               "docker stop flask-app && docker rm flask-app &&
-                docker pull mohammedmustaf/python:latest &&
-                docker run -d -p 80:5000 --name flask-app --env-file .env mohammedmustaf/python:latest"
+         
+               " echo "DB_NAME=mydatabase" > .env \
+              echo "DB_USER=user" >> .env \
+              echo "DB_PASSWORD=password" >> .env \
+              echo "MYSQL_ROOT_PASSWORD=password" >> .env \
+              echo "MYSQL_DATABASE=mydatabase" >> .env \
+              echo "REDIS_HOST=10.0.2.225" >> \
+              echo "DB_HOST=10.0.2.224" >> .env" \
+              docker stop flask-app && docker rm flask-app && docker pull mohammedmustaf/python:latest && docker run -d -p 80:5000 --name flask-app --env-file .env mohammedmustaf/python:latest 
+             
+                
+                
