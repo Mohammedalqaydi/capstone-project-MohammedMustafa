@@ -24,7 +24,7 @@
              run: |
               ssh-keyscan ${{ matrix.node }} >> ~/.ssh/known_hosts &&
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/github_actions &&
-              chmod 400 ~/.ssh/github_actions &&
+              chmod 600 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
               docker pull mohammedmustaf/python:latest
               docker stop flask-app 
