@@ -27,6 +27,6 @@
               chmod 400 ~/.ssh/github_actions &&
               ssh -i ~/.ssh/github_actions $SSH_USERNAME@${{ matrix.node }} 
 
-                "docker stop flask-app &&
+                "docker stop flask-app && docker rm flask-app
                 docker pull mohammedmustaf/python:latest &&
                 docker run -d -p 80:5000 --name cd-container --env-file .env mohammedmustaf/python:latest"
